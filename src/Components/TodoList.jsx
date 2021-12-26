@@ -1,28 +1,43 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeTodo, toggleTodo } from "../Redux/action";
 
-export const TodoList = () => {
-  const todos = useSelector((state) => state.todos);
-  // console.log(todos);
+const TodoItem = ({ title, status, onDelete, id, onToggle }) => {
   return (
-    <div style={{ marginTop: "50px" }}>
-      {todos.map((item) => {
-        return (
-          <>
-            <div
-              style={{
-                display: "flex",
-                gap: "0.5rem",
-                border: "1px solid gray",
-                paddingLeft: "20px"
-              }}
-            >
-              <h3>{item.title} - </h3>
-              <h3>{item.status ? "DONE" : "PENDING"}</h3>
-            </div>
-          </>
-        );
-      })}
+    <div style={{ display: "flex", padding: "1 rem" }}>
+      <div>{title} - </div>
+      <div>{`${status}`}</div>
+      <button onClick={() => onDelete(id)}>DELETE</button>
+      <button onClick={() => onToggle(id)}>TOGGLE</button>
     </div>
   );
 };
+
+const TodoList = () => {
+  const todos = useSelector((state) => state.todos);
+
+  const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    const action = removeTodo(id);
+    dispatch(action);
+  };
+
+  const handleToggle = (id) => {
+    const action = toggleTodo(id);
+    dispatch(action);
+  };
+
+  return (
+    <div>
+      {todos.map((item) => (
+        <TodoItem
+          key={item.id}
+          {...item}
+          onDelete={handleDelete}
+          onToggle={handleToggle}
+        />
+      ))}
+    </div>
+  );
+};
+export default TodoList;

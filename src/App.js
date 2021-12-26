@@ -1,12 +1,10 @@
-import { TodoInput } from "./Components/TodoInput";
-import { TodoList } from "./Components/TodoList";
+import Todo from "./Components/Todo";
 import "./styles.css";
 
 export default function App() {
   return (
     <div className="App">
-      <TodoInput />
-      <TodoList />
+      <Todo />
     </div>
   );
 }
